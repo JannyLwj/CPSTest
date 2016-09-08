@@ -38,12 +38,14 @@ def uninstall():
             display_name, datatype = win32api.RegQueryValueEx(subkey, "DisplayName")
             if display_name in lst_unistall:
                 print(display_name)
+                print(display_uuid)
                 lst_displayname.append(display_uuid)
+                lst_uuid.append(display_uuid)
+                os.system("MsiExec.exe /X{C56BBAC8-0DD2-4CE4-86E0-F2BDEABDD0CF} /quiet")
         except:
             pass
 
-
-    print("aa")
+    print("End")
 
 if __name__ == '__main__':
     #copyfile()

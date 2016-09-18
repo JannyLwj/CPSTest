@@ -11,12 +11,14 @@ def copyfile_from_server():
     target_dir = "D:\Target\CPS"+date
     if os.path.exists(target_dir):
         os.remove(target_dir)
-    if not os.path.exists(source_dir):
-        print("Source folder is not exist")
-        return False
-    shutil.copytree(source_dir, target_dir)
-    print("Copy file finished")
-    return True
+    while 1:
+        if not os.path.exists(source_dir):
+            print("Source folder is not exist")
+            continue
+        else:
+            shutil.copytree(source_dir, target_dir)
+            print("Copy file finished")
+            break
 
 
 def prepare_uninstall():
@@ -119,19 +121,51 @@ def clean_machine():
 def install_cpsrm():
     date = time.strftime("%Y%m%d", time.localtime(time.time()))
     print(date)
-    date="20160908"
     #install_path="D:\Target\CPS"+date+"\\Setup.exe"
-    #CPS="D:\Target\CPS20160908\CPS\MOTOTRBO_CPS.msi"
-    #os.system()
+
+    CPS="D:\Target\CPS"+date+"\\CPS\\MOTOTRBO_CPS.msi"
+    cmd="MsiExec.exe /i %s /qn " +CPS
+    print(cmd)
+    os.system(cmd)
+    CPSrmc = "D:\Target\CPS" + date + "\\RMC\\RMC.msi"
+    cmdrmc="MsiExec.exe /i %s /qn" +CPSrmc
+    print(cmdrmc)
+    os.system(cmdrmc)
+    CPSdp = "D:\Target\CPS" + date + "\\RM Device Programmer\\MOTOTRBO_RMDeviceProgrammer.msi"
+    cmddp= "MsiExec.exe /i %s /qn" + CPSdp
+    print(cmddp)
+    os.system(cmddp)
+    CPSjp = "D:\Target\CPS" + date + "\\RM Job Processor\\MOTOTRBO_RMJobProcessor.msi"
+    cmdjp = "MsiExec.exe /i %s /qn" + CPSjp
+    print(cmdjp)
+    os.system(cmdjp)
+    CPSserver = "D:\Target\CPS" + date + "\\RM Server\\MotorolaRMServer.msi"
+    cmdserver = "MsiExec.exe /i %s /qn" + CPSserver
+    print(cmdserver)
+    os.system(cmdserver)
+    CPSupdate = "D:\Target\CPS" + date + "\\RM Updater Service\\RMUpdaterService.msi"
+    cmdupdate = "MsiExec.exe /i %s /qn" + CPSupdate
+    print(cmdupdate)
+    os.system(cmdupdate)
+
 
 
 
 if __name__ == '__main__':
-    copyfile_from_server()
-    prepare_uninstall();
-    uninstall_cpsrm()
-    clean_machine()
-    #install_cpsrm()
+    while 1:
+        date_hour = time.strftime("%H", time.localtime(time.time()))
+        date_minute= time.strftime("%M", time.localtime(time.time()))
+        if (date_hour == "10" and ( 0<=int(date_minute)<=59) ):
+            print(date_hour)
+            print(date_minute)
+            copyfile_from_server()
+            prepare_uninstall()
+            uninstall_cpsrm()
+            clean_machine()
+            install_cpsrm()
+        else:
+            continue
+
 
 
 
